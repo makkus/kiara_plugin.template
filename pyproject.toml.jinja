@@ -34,15 +34,10 @@ dependencies = [
 ]
 dynamic = ["version"]
 
-[project.optional-dependencies]
-dev_documentation = [
-    "kiara[dev_documentation]"
-]
-dev_testing = [
-    "kiara[dev_testing]",
-]
-dev_utils = [
+[dependency-groups]
+dev = [
     "kiara[dev_utils]",
+    "just-bin"
 ]
 
 [project.entry-points."kiara.plugin"]
