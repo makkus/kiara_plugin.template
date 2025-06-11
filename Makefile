@@ -32,7 +32,7 @@ init: clean ## initialize a development environment (to be run in virtualenv)
 	uv run pre-commit install
 	uv run pre-commit install --hook-type commit-msg
 	git add "*" ".*"
-	pre-commit run --all-files || true
+	uv run pre-commit run --all-files || true
 	git add "*" ".*"
 
 mypy: ## run mypy
