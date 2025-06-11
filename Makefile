@@ -35,41 +35,23 @@ init: clean ## initialize a development environment (to be run in virtualenv)
 	pre-commit run --all-files || true
 	git add "*" ".*"
 
-update-dependencies:  ## update all development dependencies
-	pip install -U pip
-	pip install --extra-index-url https://pypi.fury.io/dharpa/ -U -e '.[all_dev]'
-
-
-setup-cfg-fmt: # format setup.cfg
-	setup-cfg-fmt setup.cfg || true
-
-black: ## run black
-	black --config pyproject.toml setup.py src/kiara_plugin/develop tests
-
-flake: ## check style with flake8
-	flake8 src/kiara_plugin/develop tests
-
 mypy: ## run mypy
-	mypy  --namespace-packages --explicit-package-base src/kiara_plugin/develop
+	uv run mypy src/
+
+ruff:
+	uv run ruff check --fix src/
 
 test: ## run tests quickly with the default Python
-	py.test tests
-
-test-all: ## run tests on every Python version with tox
-	tox
+	uv run py.test tests
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run -m pytest tests
-	coverage report -m
-	coverage html
+	uv run coverage run -m pytest tests
+	uv run coverage report -m
+	uv run coverage html
 	$(BROWSER) htmlcov/index.html
 
-check: black flake mypy test ## run dev-related checks
+check: ruff mypy test ## run dev-related checks
 
 pre-commit: ## run pre-commit on all files
-	pre-commit run --all-files
+	uv run pre-commit run --all-files
 
-dist: clean ## build source and wheel packages
-	python setup.py sdist
-	python setup.py bdist_wheel
-	ls -l dist
