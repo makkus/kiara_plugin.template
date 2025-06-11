@@ -44,11 +44,6 @@ ruff:
 test: ## run tests quickly with the default Python
 	uv run py.test tests
 
-coverage: ## check code coverage quickly with the default Python
-	uv run coverage run -m pytest tests
-	uv run coverage report -m
-	uv run coverage html
-	$(BROWSER) htmlcov/index.html
 
 check: ruff mypy test ## run dev-related checks
 
